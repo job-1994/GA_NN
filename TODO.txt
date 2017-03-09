@@ -1,0 +1,11 @@
+1. GA
+	population instantiation
+	encoder - weights - possibly structure of NN - possibly gradient of activation function
+	fitness function (TOGETHER)
+	generations
+	selection
+	crossover/mutation
+
+
+2. NN
+	activation function - hyperbolic tangent function 
