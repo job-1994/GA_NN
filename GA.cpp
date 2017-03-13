@@ -87,7 +87,36 @@ std::vector<float> GA::mutate(std::vector<float> parent)
   return child;
 }
 
-std::vector<std::vector<float> > nextGeneration(std::vector<std::vector<float> > previous_pop)
+std::vector<std::vector<float> > GA::nextGeneration(std::vector<std::vector<float> > previous_pop)
 {
 
+}
+
+void GA::fitnessFunction(float* position)
+{
+  float pos_x = position[0];
+  float pos_z = position[1];
+  float pos_y = position[2];
+  int pos = 0;
+  float reward[155];
+  for(float x = -0.6; x < 0.5; x = x + 0.1)
+  {
+    for(float y = -0.1; y < 1.1; y = y + 0.1)
+    {
+      printf(" x < pos_x < x + 0.1: %f < %f < %f\n", x,pos_x, x + 0.1);
+      printf(" y < pos_y < y + 0.1: %f < %f < %f\n", y,pos_y, y + 0.1);
+      if(pos_x > x && pos_x < x + 0.1 && pos_y > y && pos_y < y + 0.1)
+      {
+        // printf("Reached point\n");
+        x = 1;
+        y = 2;
+      }
+      else
+      {
+        printf("Position: %i\n\n", pos);
+        pos++;
+      }
+    }
+  }
+  printf("position: %i\n", pos);
 }

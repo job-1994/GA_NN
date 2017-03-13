@@ -32,18 +32,27 @@ int main()
     value = value + 0.1;
   }
 
-  std::vector<std::vector<float> > pop = ga.createPopulation();
+  // std::vector<std::vector<float> > pop = ga.createPopulation();
+  //
+  // for(int i = 0; i < popsize; i++)
+  // {
+  //   weights_main = ga.decode(pop[i]);
+  //   std::vector<float> result;
+  //   nn.setData(epoch, size_input_layer_main, size_hidden_layer_main, size_output_layer_main, sensors_main, weights_main);
+  //   nn.printData();
+  //   result = nn.getReaction();
+  //
+  //   printf("Output Wheel Speeds, Left: %f, Right: %f \n",result[0], result[1]);
+  // }
 
-  for(int i = 0; i < popsize; i++)
-  {
-    weights_main = ga.decode(pop[i]);
-    std::vector<float> result;
-    nn.setData(epoch, size_input_layer_main, size_hidden_layer_main, size_output_layer_main, sensors_main, weights_main);
-    nn.printData();
-    result = nn.getReaction();
 
-    printf("Output Wheel Speeds, Left: %f, Right: %f \n",result[0], result[1]);
-  }
+  float posis[3];
+  posis[0] = 0.5999;
+  posis[1] = 0;
+  posis[2] = 1.1;
+
+  ga.fitnessFunction(posis);
+
 
 }
 
