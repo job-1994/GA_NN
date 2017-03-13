@@ -1,4 +1,4 @@
-#include "include/NN.hpp"
+#include "NN.hpp"
 
 int epoch, size_input_layer, size_hidden_layer, size_output_layer;
 float sensor_left, sensor_right, out_left, out_right;
@@ -19,7 +19,6 @@ void NN::setData(int epoch_, int size_input_layer_, int size_hidden_layer_, int 
 	weights_in = weights_[0];
 	weights_hidden = weights_[1];
 	weights_out = weights_[2];
-	// printData();
 }
 
 void NN::printData()

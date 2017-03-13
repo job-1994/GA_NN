@@ -1,11 +1,13 @@
-#include "include/GA.hpp"
+#include "GA.hpp"
 
-GA::GA(int popsize_, int chromosome_length_, int rand_max_, int rand_min_)
+GA::GA(int popsize_, int chromosome_length_, int rand_max_, int rand_min_, int generations_, int elitism_)
 {
   popsize = popsize_;
   chromosome_length = chromosome_length_;
   rand_max = rand_max_;
   rand_min = rand_min_;
+  generations = generations_;
+  elitism = elitism_;
 }
 
 GA::~GA(){}
@@ -16,18 +18,19 @@ std::vector<std::vector<float> > GA::createPopulation()
   std::vector<float> pop_member;
   for (int i = 0; i < popsize; i++)
   {
-    pop_member = createChromosome(-1, 1);
+    srand(time(NULL)+ i + 1);
+    pop_member = createChromosome();
     pop[i] = pop_member;
   }
   return pop;
 }
 
-std::vector<float> GA::createChromosome(float min, float max)
+std::vector<float> GA::createChromosome()
 {
   std::vector<float> chromosome(chromosome_length);
   for(int i = 0; i < chromosome_length; i++)
   {
-    chromosome[i] = (max - min) * ((float)rand() / RAND_MAX) + min;
+    chromosome[i] = (rand_max - rand_min) * ((float)rand() / RAND_MAX) + rand_min;
   }
   return chromosome;
 }
@@ -65,7 +68,26 @@ std::vector<std::vector<float> > GA::decode(std::vector<float> chromosome)
 
 std::vector<float> GA::crossover(std::vector<float> parent_x, std::vector<float> parent_y)
 {
-
+  std::vector<float> child(parent_x.size());
+  srand(time(NULL));
+  int index = rand()%parent_x.size() + 1;
+  for(int i = 0; i < index; i++)
+    child[i] = parent_x[i];
+  for(int i = index; i < parent_x.size(); i++)
+    child[i] = parent_y[i];
+  return child;
 }
 
-std::vector<float> GA::crossover(std::vector<float> parent)
+std::vector<float> GA::mutate(std::vector<float> parent)
+{
+  std::vector<float> child = parent;
+  srand(time(NULL));
+  int index = rand()%parent.size() + 1;
+  child[index] = (rand_max - rand_min) * ((float)rand() / RAND_MAX) + rand_min;
+  return child;
+}
+
+std::vector<std::vector<float> > nextGeneration(std::vector<std::vector<float> > previous_pop)
+{
+
+}
