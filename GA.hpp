@@ -14,8 +14,7 @@ public:
     std::vector<std::vector<float> > decode(std::vector<float> chromosome);
     std::vector<float> crossover(std::vector<float> parent_x, std::vector<float> parent_y);
     std::vector<float> mutate(std::vector<float> parent);
-    std::vector<std::vector<float> > nextGeneration(std::vector<std::vector<float> > previous_pop);
-    void fitnessFunction(float* position);
+    std::vector<std::vector<float> > nextGeneration(std::vector<std::vector<float> > previous_pop, std::vector<int> fitness, int tournament_size);
 
 
   private:

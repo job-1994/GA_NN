@@ -3,6 +3,7 @@
 #include <vector>
 #include "NN.hpp"
 #include "GA.hpp"
+#include "FitnessFunction.hpp"
 
 const int size_input_layer_main = 6;
 const int size_hidden_layer_main = 4;
@@ -11,7 +12,7 @@ const int in_size = size_input_layer_main*size_hidden_layer_main;
 const int hidden_size = size_hidden_layer_main*size_hidden_layer_main;
 const int out_size = size_hidden_layer_main*size_output_layer_main;
 const int epoch = 4;
-const int popsize = 10; //500;
+const int popsize = 100; //500;
 const int rand_max = 1;
 const int rand_min = -1;
 const int generations = 1500;
@@ -22,8 +23,10 @@ std::vector<std::vector<float> > weights_main(3);
 
 int main()
 {
+  srand(time(NULL));
   NN nn;
   GA ga(popsize, in_size + hidden_size + out_size, rand_max, rand_min, generations, elitism);
+  FitnessFunction ff;
 
   float value = 0.1;
   for(int i = 0; i < size_input_layer_main; i++)
@@ -31,9 +34,19 @@ int main()
     sensors_main[i] = value;
     value = value + 0.1;
   }
+  std::vector<std::vector<float> > pop = ga.createPopulation();
+  std::vector<int> fit(pop.size());
+  for(int i = 0; i < fit.size(); i++)
+  {
+    fit[i] = rand()%20 + 1;
+  }
+  for(int i = 0; i < fit.size(); i++)
+  {
+    printf("Fitness %i: %i\n", i, fit[i]);
+  }
 
-  // std::vector<std::vector<float> > pop = ga.createPopulation();
-  //
+  pop = ga.nextGeneration(pop, fit, 5);
+  
   // for(int i = 0; i < popsize; i++)
   // {
   //   weights_main = ga.decode(pop[i]);
@@ -46,12 +59,6 @@ int main()
   // }
 
 
-  float posis[3];
-  posis[0] = 0.5999;
-  posis[1] = 0;
-  posis[2] = 1.1;
-
-  ga.fitnessFunction(posis);
 
 
 }

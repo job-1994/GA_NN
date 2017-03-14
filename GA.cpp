@@ -18,7 +18,6 @@ std::vector<std::vector<float> > GA::createPopulation()
   std::vector<float> pop_member;
   for (int i = 0; i < popsize; i++)
   {
-    srand(time(NULL)+ i + 1);
     pop_member = createChromosome();
     pop[i] = pop_member;
   }
@@ -69,7 +68,6 @@ std::vector<std::vector<float> > GA::decode(std::vector<float> chromosome)
 std::vector<float> GA::crossover(std::vector<float> parent_x, std::vector<float> parent_y)
 {
   std::vector<float> child(parent_x.size());
-  srand(time(NULL));
   int index = rand()%parent_x.size() + 1;
   for(int i = 0; i < index; i++)
     child[i] = parent_x[i];
@@ -81,42 +79,50 @@ std::vector<float> GA::crossover(std::vector<float> parent_x, std::vector<float>
 std::vector<float> GA::mutate(std::vector<float> parent)
 {
   std::vector<float> child = parent;
-  srand(time(NULL));
   int index = rand()%parent.size() + 1;
   child[index] = (rand_max - rand_min) * ((float)rand() / RAND_MAX) + rand_min;
   return child;
 }
 
-std::vector<std::vector<float> > GA::nextGeneration(std::vector<std::vector<float> > previous_pop)
+std::vector<int> tournamentOutcome()
 {
 
 }
 
-void GA::fitnessFunction(float* position)
+
+std::vector<std::vector<float> > GA::nextGeneration(std::vector<std::vector<float> > previous_pop, std::vector<int> fitness, int tournament_size)
 {
-  float pos_x = position[0];
-  float pos_z = position[1];
-  float pos_y = position[2];
-  int pos = 0;
-  float reward[155];
-  for(float x = -0.6; x < 0.5; x = x + 0.1)
+  std::vector<std::vector<float> > new_pop(previous_pop.size());
+  std::vector<float> parent_x, parent_y, child;
+  std::vector<int> tournament_index(tournament_size);
+  std::vector<std::vector<float> > tournament_entries(tournament_size);
+
+  for (int i = 0; i < tournament_size; i++)
   {
-    for(float y = -0.1; y < 1.1; y = y + 0.1)
-    {
-      printf(" x < pos_x < x + 0.1: %f < %f < %f\n", x,pos_x, x + 0.1);
-      printf(" y < pos_y < y + 0.1: %f < %f < %f\n", y,pos_y, y + 0.1);
-      if(pos_x > x && pos_x < x + 0.1 && pos_y > y && pos_y < y + 0.1)
-      {
-        // printf("Reached point\n");
-        x = 1;
-        y = 2;
-      }
-      else
-      {
-        printf("Position: %i\n\n", pos);
-        pos++;
-      }
-    }
+    tournament_index[i] = rand()%previous_pop.size() + 1;
+    tournament_entries[i] = previous_pop[tournament_index[i]];
+    printf("Tournament entry %i index: %i\n", i, tournament_index[i]);
   }
-  printf("position: %i\n", pos);
+
+
+
+  // for(int i = 0; i < previous_pop.size() - 2; i++)
+  // {
+  //   for (int j = 0; j < tournament_size; j++)
+  //   {
+  //
+  //   srand(time(NULL)+ i + 1);
+  //   index_x = rand()%previous_pop.size() + 1;
+  //   srand(time(NULL)+ i + 2);
+  //   index_y = rand()%previous_pop.size() + 1;
+  //   tournamentOutcome();
+  //   printf("parent x index: %i, parent y index: %i\n", index_x, index_y);
+  //   parent_x = previous_pop[index_x];
+  //   parent_y = previous_pop[index_y];
+  // }
+  //
+  // }
+
+
+  return new_pop;
 }
